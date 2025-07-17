@@ -10,7 +10,7 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
@@ -29,10 +29,10 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         // User is Logged In
-        setUser(currentUser);
+        SetUser(currentUser);
       } else {
         // User Logged Out
-        setUser(null)  
+        SetUser(null)  
       }
     })
 
@@ -44,7 +44,7 @@ function App() {
   const signUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      setUser(userCredential.user);
+      SetUser(userCredential.user);
       console.log('User signed up:', userCredential.user);
     })
     .catch(error =>{
@@ -56,7 +56,7 @@ function App() {
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, password)
     .then(userCrendtial => {
-      setUser(userCredintial.user);
+      SetUser(userCrendtial.user);
       console.log('User has already Logged In:', userCrendtial.user);
     })
     .catch(error => {
@@ -68,7 +68,7 @@ function App() {
   const logOut = () => {
     signOut(auth)
     .then(() => {
-      setUser(null);
+      SetUser(null);
       console.log('User is Logged Out');
     })
     .catch(error => {
