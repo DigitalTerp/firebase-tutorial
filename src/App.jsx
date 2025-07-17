@@ -39,28 +39,7 @@ function App() {
     return () => unsubscribe();
   })
 
-  useEffect(() => {
-    async function testFirestore() {
-      const docRef = doc(db, "testCollection", "testDocument");
-      const docSnap = await getDoc(docRef);
-
-      // Updates Specific Field
-      await updateDoc(docRef, {
-        age: "3500",
-        name: "Leto II"
-      })
-
-      if (docSnap.exists()) {
-        console.log("Updated Document data:", docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    }
-
-    testFirestore();
-  }, []);
-
-
+  
   // Sign Up
   const signUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -78,7 +57,7 @@ function App() {
     signInWithEmailAndPassword(auth, email, password)
     .then(userCrendtial => {
       setUser(userCredintial.user);
-      console.log("User has already Logged In ")
+      console.log("User has already Logged In ");
     })
     .catch(error => {
       console.error('Error Logging In:', error);
