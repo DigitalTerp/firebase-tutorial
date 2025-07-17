@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { db } from '/Volumes/Dark Sister/SITES/react-firebase-tutorial/src/lib/firebase.js';
+import { db } from '/src/lib/firebase.js';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import './Todo.css';
  
