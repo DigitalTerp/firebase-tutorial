@@ -25,7 +25,7 @@ function App() {
   const [user, SetUser] = useState(null);
 
   useEffect(() => {
-    // Chec the User's authentication state when on loading
+    // Check the User's authentication state when on loading
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         // User is Logged In
@@ -39,12 +39,12 @@ function App() {
     return () => unsubscribe();
   })
 
-  
+
   // Sign Up
   const signUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then(userCredential => {
-      SetUser(userCredential.user);
+      setUser(userCredential.user);
       console.log('User signed up:', userCredential.user);
     })
     .catch(error =>{
@@ -57,7 +57,7 @@ function App() {
     signInWithEmailAndPassword(auth, email, password)
     .then(userCrendtial => {
       setUser(userCredintial.user);
-      console.log("User has already Logged In ");
+      console.log('User has already Logged In:', userCrendtial.user);
     })
     .catch(error => {
       console.error('Error Logging In:', error);
