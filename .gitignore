@@ -33,3 +33,4 @@ dist-ssr
 ._.git
 ._.gitignore
 ._package-lock.json
+src/._App.jsx

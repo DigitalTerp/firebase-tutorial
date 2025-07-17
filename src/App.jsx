@@ -60,8 +60,17 @@ function App() {
   }
 
   // Sign In
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then(userCrendtial => {
+      setUser(userCredintial.user);
+    })
+    .catch(error => {
+      console.error('Error signing up:', error);
+    });
+  }
 
-
+  
   // Sign Out
   const logOut = () => {
     signOut(auth)
@@ -75,11 +84,11 @@ function App() {
   } 
 
 
+
   return (
     <>
     <p>Firestore Authentication</p>
 
-    
     <div>
       <input type="text" placeholder= 'Email' value={email} onChange={(event) => setEmail(event.target.value)} />
       <input type="password" placeholder='Password' value={password} />
