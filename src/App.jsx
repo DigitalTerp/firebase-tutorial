@@ -1,7 +1,7 @@
 import './App.css';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useState, useEffect } from 'react';
 
 const firebaseConfig = {
@@ -20,10 +20,24 @@ const auth = getAuth(app);
 
 
 function App() {
-  const [name, SetName] = useState();
   const [email, setEmail] = useState('');
   const [password, setPasword] = useState('');
   const [user, SetUser] = useState(null);
+
+  useEffect(() => {
+    // Chec the User's authentication state when on loading
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // User is Logged In
+        setUser(currentUser);
+      } else {
+        // User Logged Out
+        setUser(null)  
+      }
+    })
+
+    return () => unsubscribe();
+  })
 
   useEffect(() => {
     async function testFirestore() {
@@ -64,23 +78,23 @@ function App() {
     signInWithEmailAndPassword(auth, email, password)
     .then(userCrendtial => {
       setUser(userCredintial.user);
+      console.log("User has already Logged In ")
     })
     .catch(error => {
-      console.error('Error signing up:', error);
+      console.error('Error Logging In:', error);
     });
   }
 
-  
   // Sign Out
   const logOut = () => {
     signOut(auth)
-    .then( () => {
+    .then(() => {
       setUser(null);
-      console.log('User is Signed Out');
+      console.log('User is Logged Out');
     })
     .catch(error => {
-      console.error('Error signing out:', error);
-    })
+      console.error('Error Logging Out:', error);
+    });
   } 
 
 
@@ -90,17 +104,23 @@ function App() {
     <p>Firestore Authentication</p>
 
     <div>
-      <input type="text" placeholder= 'Email' value={email} onChange={(event) => setEmail(event.target.value)} />
-      <input type="password" placeholder='Password' value={password} />
-      <button onClick={signUp}>Sign Up</button>
-      <button onClick={signIn}>Sign In</button>
-      <button onClick={logOut}>Sign Out</button>
+      {
+        !user && (
+        <>
+          <input type="text" placeholder= 'Email' value={email} onChange={(event) => setEmail(event.target.value)} />
+          <input type="password" placeholder='Password' value={password} onChange={(event) => setPasword(event.target.value)} />
+          <button onClick={signUp}>Sign Up</button>
+          <button onClick={signIn}>Log In</button>
+        </>
+        )
+      }
     </div>
 
     {
       user && (
         <div>
           <p>Logged in As: {user.email}</p>
+          <button onClick={logOut}>Log Out</button>
         </div>
       )
     }
